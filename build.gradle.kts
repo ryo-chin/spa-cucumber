@@ -22,6 +22,7 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.cucumber:cucumber-java8:4.7.1") // for display lambda
 	testImplementation("io.cucumber:cucumber-junit:4.7.1")
+	testImplementation("org.seleniumhq.selenium:selenium-java:3.14.0")
 	testImplementation("junit:junit")
 }
 

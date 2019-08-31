@@ -1,0 +1,16 @@
+version: '3'
+services:
+  frontserver:
+    build: frontserver
+    container_name: frontserver
+    volumes:
+      - ./../frontend-app:/spa-cucumber/frontend-app
+    working_dir: /spa-cucumber/frontend-app
+    ports:
+      - 4200:4200
+  chrome:
+    image: selenium/standalone-chrome-debug:latest
+    container_name: selenium_chrome
+    ports:
+      - 4444:4444
+      - 5900:5900
