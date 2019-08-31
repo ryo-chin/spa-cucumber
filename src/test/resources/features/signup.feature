@@ -1,5 +1,6 @@
  Feature: 会員登録
 
+   @developing
    Scenario: 会員登録を行うことができる
      Given メールアドレス"hakiba@bakibaki.com"、パスワード"password"を入力する
      When Submitボタンを押下する
