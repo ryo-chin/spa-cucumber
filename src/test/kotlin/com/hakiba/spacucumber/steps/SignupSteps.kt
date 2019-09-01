@@ -1,6 +1,7 @@
 package com.hakiba.spacucumber.steps
 
 import io.cucumber.java8.En
+import org.assertj.core.api.Assertions.assertThat
 import org.openqa.selenium.remote.DesiredCapabilities
 import org.openqa.selenium.remote.RemoteWebDriver
 import java.net.URL
@@ -10,23 +11,29 @@ import java.net.URL
  * @author hakiba
  */
 class SignupSteps(
-        private val FRONT_SERVER_HOSTNAME: String = "http://frontserver:4200",
-        private val SELENIUM_SERVER_URL: String = "http://localhost:4444/wd/hub"
+        private val frontServerHostname: String = "http://frontserver:4200",
+        private val seleniumServerUrl: String = "http://localhost:4444/wd/hub",
+        private val driver: RemoteWebDriver = RemoteWebDriver(URL(seleniumServerUrl), DesiredCapabilities.chrome())
 ) : En {
     init {
-        Given("メールアドレス{string}、パスワード{string}を入力する") { string: String, string2: String ->
-            val driver = RemoteWebDriver(URL(SELENIUM_SERVER_URL), DesiredCapabilities.chrome())
-            driver.get("$FRONT_SERVER_HOSTNAME/signup")
+        Given("メールアドレス{string}、パスワード{string}を入力する") { mailAddress: String, password: String ->
+            driver.get("$frontServerHostname/signup")
+            driver.findElementByClassName("e2e-mailaddress").sendKeys(mailAddress)
+            driver.findElementByClassName("e2e-password").sendKeys(password)
         }
 
         When("Submitボタンを押下する") {
             // Write code here that turns the phrase above into concrete actions
-            throw cucumber.api.PendingException()
+            driver.findElementByClassName("e2e-form").submit()
         }
 
         Then("自分のユーザープロフィール画面に遷移する") {
-            // Write code here that turns the phrase above into concrete actions
-            throw cucumber.api.PendingException()
+            try {
+                assertThat(driver.currentUrl).startsWith("$frontServerHostname/user")
+            } finally {
+                println("****finally*****")
+                driver.quit()
+            }
         }
     }
 }

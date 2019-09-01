@@ -14,7 +14,6 @@ Feature: Hello
   Scenario: Multi-param lambdas
     Given I will give you 1 and 2 and three and 4
 
-  @now
   Scenario: use a table
     Given this data table:
       | first  | last     |
