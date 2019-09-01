@@ -1,1 +1,17 @@
-<p>signup works!</p>
+<form [formGroup]="userInputForm" (ngSubmit)="onSubmit(userInputForm.value)" class="e2e-form">
+  <div>
+    <label for="mailAddress">
+      MailAddress
+    </label>
+    <input id="mailAddress" type="text" class="e2e-mailaddress" formControlName="mailAddress">
+  </div>
+
+  <div>
+    <label for="password">
+      Password
+    </label>
+    <input id="password" type="text" class="e2e-password" formControlName="password">
+  </div>
+
+  <button class="button" type="submit">SignUp</button>
+</form>
