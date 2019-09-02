@@ -10,4 +10,5 @@ abstract class BasePage(
         protected val driver: RemoteWebDriver
 ) {
     fun visit() = driver.get(url)
+    fun isOpened() : Boolean = driver.currentUrl?.let { Regex(url).matches(it) } ?: false
 }
