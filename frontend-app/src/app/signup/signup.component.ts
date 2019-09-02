@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from "@angular/forms";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Router } from "@angular/router";
+import { User } from "../model/user";
 
 @Component({
   selector: 'app-signup',
@@ -12,7 +14,8 @@ export class SignupComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {
     this.userInputForm = formBuilder.group({
       mailAddress: '',
@@ -29,9 +32,9 @@ export class SignupComponent implements OnInit {
         'Content-Type': 'application/json',
       })
     };
-    this.http.post("http://localhost:8080/api/users", userInput, httpOptions)
+    this.http.post<User>("http://apiserver:8080/api/users", userInput, httpOptions)
       .subscribe(
-        () => alert("success"),
+        user => this.router.navigateByUrl("/user/" + user.userId),
         error => {
           console.log(error);
           alert("fail")
