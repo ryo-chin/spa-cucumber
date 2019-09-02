@@ -22,4 +22,4 @@ services:
     container_name: selenium_chrome
     ports:
       - 4444:4444
-      - 5900:5900
+      - 5901:5900
