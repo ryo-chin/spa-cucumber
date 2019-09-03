@@ -1,7 +1,8 @@
 # Setup & Launch
 ## Front
 ```bash
-brew install nvm
+brew install nvm # if need
+nvm use
 cd frontend-app
 npm install -g @angular/cli
 npm install
