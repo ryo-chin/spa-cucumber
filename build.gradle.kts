@@ -20,11 +20,14 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	implementation("com.graphql-java-kickstart:graphql-spring-boot-starter")
+	implementation("com.graphql-java-kickstart:graphiql-spring-boot-starter")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.cucumber:cucumber-java8:4.7.1") // for display lambda
 	testImplementation("io.cucumber:cucumber-junit:4.7.1")
 	testImplementation("org.seleniumhq.selenium:selenium-java:3.14.0")
 	testImplementation("junit:junit")
+	testImplementation("com.graphql-java-kickstart:graphql-spring-boot-starter-test")
 }
 
 tasks.withType<KotlinCompile> {
