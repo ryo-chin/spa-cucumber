@@ -23,7 +23,7 @@ export class UserProfileComponent implements OnInit {
       })
     };
     const id = this.route.snapshot.paramMap.get('id');
-    this.http.get<User>("http://frontserver:8080/api/users/" + id, httpOptions)
+    this.http.get<User>("http://apiserver:8080/api/users/" + id, httpOptions)
       .subscribe(
         user => this.user = user,
         error => alert("fail")
