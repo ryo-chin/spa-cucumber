@@ -19,7 +19,9 @@ class WebDriverUtil(
         if (driver.sessionId == null) {
             return null
         }
-        Files.createDirectory(Paths.get(schreeShotFolderPath))
+        if (Files.notExists(Paths.get(schreeShotFolderPath))) {
+            Files.createDirectory(Paths.get(schreeShotFolderPath))
+        }
         return Files.write(Paths.get("$schreeShotFolderPath/$fileName.jpg"), driver.getScreenshotAs(OutputType.FILE)!!.readBytes())
     }
 
