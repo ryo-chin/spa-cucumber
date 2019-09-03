@@ -1,6 +1,20 @@
 package com.hakiba.spacucumber
 
-val frontServerHost: String = getEnvOrProp("FRONT_SERVER_HOST", "http://localhost:4200")
-val seleniumServerUrl: String = getEnvOrProp("SELENIUM_SERVER_URL", "http://localhost:4444/wd/hub")
+import com.hakiba.spacucumber.page.SignUpPage
+import com.hakiba.spacucumber.page.UserProfilePage
+import org.openqa.selenium.chrome.ChromeOptions
+import org.openqa.selenium.remote.RemoteWebDriver
+import java.net.URL
 
-fun getEnvOrProp(name: String, default: String): String = System.getenv(name) ?: System.getProperty(name) ?: default
+/**
+ * @author hakiba
+ */
+val frontServerHostname: String = "http://frontserver:4200"
+val seleniumServerUrl: String = "http://localhost:4444/wd/hub"
+val schreeShotFolderPath: String = "tmp"
+
+private val driver: RemoteWebDriver = RemoteWebDriver(URL(seleniumServerUrl), ChromeOptions())
+
+val webDriverUtil = WebDriverUtil(driver)
+val signUpPage = SignUpPage("$frontServerHostname/signup", driver)
+val userProfilePage = UserProfilePage("$frontServerHostname/user/\\d+", driver)

@@ -6,20 +6,25 @@ import org.springframework.web.bind.annotation.*
 /**
  * @author hakiba
  */
+@CrossOrigin
 @RestController
 @RequestMapping("api/users")
 class UserController {
+    companion object {
+        var userStore: UserDto? = null
+    }
 
-    @CrossOrigin
     @PostMapping
-    fun signUp(@RequestBody body: UserRegisterBody): ResponseEntity<Nothing> {
+    fun signUp(@RequestBody body: UserRegisterBody): ResponseEntity<UserDto> {
         println("$body.mailAddress $body.password")
-        return ResponseEntity.ok().build()
+        val userDto = UserDto(userId = 1, mailAddress = body.mailAddress)
+        userStore = userDto
+        return ResponseEntity.ok(userDto)
     }
 
     @GetMapping("{id}")
     fun users(@PathVariable(value = "id") id: Long): ResponseEntity<UserDto> {
-        return ResponseEntity.ok(UserDto(userId = id, mailAddress = "xxxxxx"))
+        return ResponseEntity.ok(UserDto(userId = id, mailAddress = userStore?.mailAddress ?: ""))
     }
 }
 
