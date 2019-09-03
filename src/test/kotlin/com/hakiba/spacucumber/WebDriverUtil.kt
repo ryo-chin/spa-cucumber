@@ -17,7 +17,7 @@ class WebDriverUtil(
         if (driver.sessionId == null) {
             return null
         }
-        // TODO: ディレクトリがなければ作成するように修正
+        Files.createDirectory(Paths.get(schreeShotFolderPath))
         return Files.write(Paths.get("$schreeShotFolderPath/$fileName.jpg"), driver.getScreenshotAs(OutputType.FILE)!!.readBytes())
     }
     fun currentUrl() : String? {
