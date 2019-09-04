@@ -2,6 +2,7 @@
 cd `dirname $0`/../
 ./gradlew api-server:bootJar
 cd docker
+echo "Restart Docker container"
 docker-compose restart apiserver
 
 cd ../
@@ -10,7 +11,9 @@ WAIT_SEC=20
 sleep ${WAIT_SEC}s
 HTTP_STATUS=$(curl -LI ${URL} -o /dev/null -w '%{http_code}\n' -s)
 if [[ "$HTTP_STATUS" -eq '200' ]]; then
-  echo "APIサーバーが起動したのでTestを実行"
+  echo "API server is started. execute test."
+  ./gradlew api-server:test --tests com.hakiba.spacucumber.RunCucumber
 else
-  echo "APIサーバーが起動していないので終了"
+  echo "API server is not started. exit."
+  exit 1
 fi
