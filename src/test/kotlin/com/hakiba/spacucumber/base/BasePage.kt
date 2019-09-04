@@ -10,7 +10,7 @@ abstract class BasePage(
         private val url: String,
         protected var browser: Browser
 ) {
-    val logger = prepareLogger()
+    private val logger = prepareLogger()
 
     fun visit() {
         if (!browser.isLaunched()) {
