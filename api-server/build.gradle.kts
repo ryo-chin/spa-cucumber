@@ -27,6 +27,9 @@ tasks {
             info.events("passed", "skipped", "failed")
         }
     }
+    register<Test>("cucumberRun") {
+        include("**/RunCucumber.class")
+    }
     register<Exec>("cucumberRunWithBuild") {
         commandLine("sh", "../tools/cucumber_with_build.sh")
     }
