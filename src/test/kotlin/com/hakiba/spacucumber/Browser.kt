@@ -21,12 +21,21 @@ class Browser(
         }
     }
 
+    fun isLaunched(): Boolean = driver.sessionId != null
+
     fun relaunch(): RemoteWebDriver {
         this.driver = launch()
         return driver
     }
 
+    fun open(url: String) {
+        driver.get(url)
+    }
+
     fun quit() = driver.quit()
+
+    fun input(filedName: String, value: String) = driver.findElementByClassName(filedName).sendKeys(value)
+    fun submit(name: String) = driver.findElementByClassName(name).submit()
 
     fun takeScreenShot(fileName: String): Path? {
         if (driver.sessionId == null) {
@@ -38,20 +47,14 @@ class Browser(
         return Files.write(Paths.get("$schreeShotFolderPath/$fileName.jpg"), driver.getScreenshotAs(OutputType.FILE)!!.readBytes())
     }
 
-    fun currentUrl(): String? {
-        if (driver.sessionId == null) {
-            return null
-        }
+    fun currentUrl(): String {
         return driver.currentUrl
     }
-}
 
-/**
- * Extension
- */
-fun <T> RemoteWebDriver.waitUntil(second: Long, func: (RemoteWebDriver) -> T): T {
-    WebDriverWait(this, second)
-    val result: T = func(this)
-    WebDriverWait(this, 1) // Default is 500 mills, but not exists setter.
-    return result
+    fun <T> waitUntil(second: Long, func: (Browser) -> T): T {
+        WebDriverWait(driver, second)
+        val result: T = func(this)
+        WebDriverWait(driver, 1) // Default is 500 mills, but not exists setter.
+        return result
+    }
 }

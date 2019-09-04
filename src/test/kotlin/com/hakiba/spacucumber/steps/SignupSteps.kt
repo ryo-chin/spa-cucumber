@@ -2,6 +2,7 @@ package com.hakiba.spacucumber.steps
 
 import com.hakiba.spacucumber.base.BaseStep
 import com.hakiba.spacucumber.signUpPage
+import com.hakiba.spacucumber.userProfilePage
 import org.assertj.core.api.Assertions.assertThat
 
 
@@ -20,7 +21,7 @@ class SignupSteps : BaseStep() {
         }
 
         Then("自分のユーザープロフィール画面に遷移する") {
-            assertThat(signUpPage.navigateToUserProfilePage()?.isOpened()).isTrue()
+            assertThat(userProfilePage.isOpened()).isTrue()
         }
     }
 }

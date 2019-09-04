@@ -13,7 +13,7 @@ abstract class BaseStep : En {
 
         After { scenario ->
             if (scenario.isFailed) {
-                browser.currentUrl()?.also { logger.info("Last view url: $it") }
+                browser.currentUrl().also { logger.info("Last view url: $it") }
                 browser.takeScreenShot(scenario.name)?.also { logger.info("Take screenShot: ${it.fileName}") }
             }
             browser.quit()
