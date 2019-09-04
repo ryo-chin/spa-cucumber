@@ -36,8 +36,8 @@ class WebDriverUtil(
 /**
  * Extension
  */
-fun <T> RemoteWebDriver.waitUntil(time: Long, func: (RemoteWebDriver) -> T): T {
-    WebDriverWait(this, time)
+fun <T> RemoteWebDriver.waitUntil(second: Long, func: (RemoteWebDriver) -> T): T {
+    WebDriverWait(this, second)
     val result: T = func(this)
     WebDriverWait(this, 1) // Default is 500 mills, but not exists setter.
     return result

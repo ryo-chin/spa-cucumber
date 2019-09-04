@@ -11,5 +11,12 @@ abstract class BasePage(
         protected val driver: RemoteWebDriver
 ) {
     fun visit() = driver.get(url)
-    fun isOpened() : Boolean = driver.waitUntil(10) { it.currentUrl?.let { currentUrl -> Regex(url).matches(currentUrl) } ?: false }
+    fun isOpened(): Boolean {
+        return driver.waitUntil(1) {
+            it.currentUrl?.let { currentUrl ->
+                println("pattern is $url, actual: $currentUrl")
+                Regex(url).matches(currentUrl)
+            }
+        } ?: false
+    }
 }
