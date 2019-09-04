@@ -3,6 +3,7 @@ import { FormBuilder } from "@angular/forms";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { User } from "../model/user";
+import { environment } from "../../environments/environment";
 
 @Component({
   selector: 'app-signup',
@@ -32,7 +33,7 @@ export class SignupComponent implements OnInit {
         'Content-Type': 'application/json',
       })
     };
-    this.http.post<User>("http://apiserver:8080/api/users", userInput, httpOptions)
+    this.http.post<User>(environment.apiUrl + "/api/users", userInput, httpOptions)
       .subscribe(
         user => this.router.navigateByUrl("/user/" + user.userId),
         error => {

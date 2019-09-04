@@ -61,6 +61,14 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "scenario-test": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.scenario-test.ts"
+                }
+              ]
             }
           }
         },
@@ -72,6 +80,9 @@
           "configurations": {
             "production": {
               "browserTarget": "frontend-app:build:production"
+            },
+            "scenario-test": {
+              "browserTarget": "frontend-app:build:scenario-test"
             }
           }
         },
