@@ -1,4 +1,4 @@
-package com.hakiba.spacucumber.page
+package com.hakiba.spacucumber.base
 
 import com.hakiba.spacucumber.waitUntil
 import org.openqa.selenium.remote.RemoteWebDriver

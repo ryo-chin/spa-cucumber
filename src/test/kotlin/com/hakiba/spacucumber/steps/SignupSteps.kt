@@ -1,7 +1,7 @@
 package com.hakiba.spacucumber.steps
 
-import com.hakiba.spacucumber.signUpPage
-import com.hakiba.spacucumber.userProfilePage
+import com.hakiba.spacucumber.*
+import com.hakiba.spacucumber.base.BaseStep
 import org.assertj.core.api.Assertions.assertThat
 
 

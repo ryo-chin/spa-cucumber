@@ -1,4 +1,4 @@
-package com.hakiba.spacucumber.steps
+package com.hakiba.spacucumber.base
 
 import com.hakiba.spacucumber.prepareLogger
 import com.hakiba.spacucumber.webDriverUtil
@@ -7,8 +7,7 @@ import io.cucumber.java8.En
 /**
  * @author hakiba
  */
-open class BaseStep : En {
-    // TODO: Afterが二重で動いてしまう問題を解決
+abstract class BaseStep : En {
     init {
         val logger = prepareLogger()
 

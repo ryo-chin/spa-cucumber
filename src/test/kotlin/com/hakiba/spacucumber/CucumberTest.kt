@@ -10,13 +10,15 @@ import org.junit.runner.RunWith
 @RunWith(Cucumber::class)
 @CucumberOptions(
         features = ["src/test/resources/features"],
-        tags = ["not @developing"]
+        tags = ["not @developing"],
+        glue = ["com.hakiba.spacucumber.steps"]
 )
 class RunCucumber
 
 @RunWith(Cucumber::class)
 @CucumberOptions(
         features = ["src/test/resources/features"],
-        tags = ["@now"]
+        tags = ["@now"],
+        glue = ["com.hakiba.spacucumber.steps"]
 )
 class RunCucumberNow
