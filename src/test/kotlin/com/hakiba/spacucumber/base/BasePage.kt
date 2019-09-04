@@ -19,7 +19,7 @@ abstract class BasePage(
         browser.open(url)
     }
 
-    fun isOpened(): Boolean = browser.waitUntil(1) { browser ->
+    fun isOpened(): Boolean = browser.waitUntil(5) { browser ->
         browser.currentUrl()
                 .let { current ->
                     Regex(url).matches(current).also { logger.info("Current URL check Result: {match: $it, urlPattern: \"$url\", actual: $current}") }

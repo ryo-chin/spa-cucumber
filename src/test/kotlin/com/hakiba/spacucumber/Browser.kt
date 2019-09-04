@@ -44,10 +44,5 @@ class Browser(
         return driver.currentUrl
     }
 
-    fun <T> waitUntil(second: Long, func: (Browser) -> T): T {
-        WebDriverWait(driver, second)
-        val result: T = func(this)
-        WebDriverWait(driver, 1) // Default is 500 mills, but not exists setter.
-        return result
-    }
+    fun <T> waitUntil(second: Long, func: (Browser) -> T): T = WebDriverWait(driver, second).until { func(this) }
 }
