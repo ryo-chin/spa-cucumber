@@ -1,6 +1,7 @@
 package com.hakiba.spacucumber.base
 
 import com.hakiba.spacucumber.waitUntil
+import com.hakiba.spacucumber.browser
 import org.openqa.selenium.remote.RemoteWebDriver
 
 /**
@@ -8,9 +9,15 @@ import org.openqa.selenium.remote.RemoteWebDriver
  */
 abstract class BasePage(
         private val url: String,
-        protected val driver: RemoteWebDriver
+        protected var driver: RemoteWebDriver
 ) {
-    fun visit() = driver.get(url)
+    fun visit() {
+        if (driver.sessionId == null) {
+            driver = browser.relaunch()
+        }
+        driver.get(url)
+    }
+
     fun isOpened(): Boolean {
         return driver.waitUntil(1) {
             it.currentUrl?.let { currentUrl ->

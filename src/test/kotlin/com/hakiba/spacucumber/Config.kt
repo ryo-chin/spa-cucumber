@@ -1,7 +1,6 @@
 package com.hakiba.spacucumber
 
 import com.hakiba.spacucumber.page.SignUpPage
-import com.hakiba.spacucumber.page.UserProfilePage
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.remote.RemoteWebDriver
 import java.net.URL
@@ -15,6 +14,7 @@ val schreeShotFolderPath: String = "tmp"
 
 private val driver: RemoteWebDriver = RemoteWebDriver(URL(seleniumServerUrl), ChromeOptions())
 
-val webDriverUtil = WebDriverUtil(driver)
-val signUpPage = SignUpPage("$frontServerHostname/signup", driver)
-val userProfilePage = UserProfilePage("$frontServerHostname/user/\\d+", driver)
+val browser = Browser(driver)
+val signUpPageUrl = "$frontServerHostname/signup"
+val signUpPage = SignUpPage(signUpPageUrl, driver)
+val userProfilePageUrl = "$frontServerHostname/user/\\d+"

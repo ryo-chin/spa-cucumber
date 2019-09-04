@@ -1,6 +1,7 @@
 package com.hakiba.spacucumber.page
 
 import com.hakiba.spacucumber.base.BasePage
+import com.hakiba.spacucumber.userProfilePageUrl
 import org.openqa.selenium.remote.RemoteWebDriver
 
 /**
@@ -17,5 +18,9 @@ class SignUpPage(
 
     fun submit() {
         driver.findElementByClassName("e2e-form").submit()
+    }
+
+    fun navigateToUserProfilePage(): UserProfilePage? {
+        return driver.takeIf { it.sessionId != null }?.let { UserProfilePage(userProfilePageUrl, it) }
     }
 }

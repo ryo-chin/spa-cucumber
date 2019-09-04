@@ -1,7 +1,7 @@
 package com.hakiba.spacucumber.base
 
 import com.hakiba.spacucumber.prepareLogger
-import com.hakiba.spacucumber.webDriverUtil
+import com.hakiba.spacucumber.browser
 import io.cucumber.java8.En
 
 /**
@@ -13,11 +13,11 @@ abstract class BaseStep : En {
 
         After { scenario ->
             if (scenario.isFailed) {
-                webDriverUtil.currentUrl()?.also { logger.info("Last view url: $it") }
-                webDriverUtil.takeScreenShot(scenario.name)?.also { logger.info("Take screenShot: ${it.fileName}") }
+                browser.currentUrl()?.also { logger.info("Last view url: $it") }
+                browser.takeScreenShot(scenario.name)?.also { logger.info("Take screenShot: ${it.fileName}") }
             }
-            webDriverUtil.quit()
-            logger.info("Complete CleanUp WebDriver")
+            browser.quit()
+            logger.info("Quit Browser")
         }
     }
 }

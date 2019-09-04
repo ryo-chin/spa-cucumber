@@ -1,8 +1,10 @@
 package com.hakiba.spacucumber
 
 import org.openqa.selenium.OutputType
+import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.remote.RemoteWebDriver
 import org.openqa.selenium.support.ui.WebDriverWait
+import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -10,9 +12,20 @@ import java.nio.file.Paths
 /**
  * @author hakiba
  */
-class WebDriverUtil(
-        private val driver: RemoteWebDriver
+class Browser(
+        private var driver: RemoteWebDriver
 ) {
+    companion object {
+        fun launch(): RemoteWebDriver {
+            return RemoteWebDriver(URL(seleniumServerUrl), ChromeOptions())
+        }
+    }
+
+    fun relaunch(): RemoteWebDriver {
+        this.driver = launch()
+        return driver
+    }
+
     fun quit() = driver.quit()
 
     fun takeScreenShot(fileName: String): Path? {
