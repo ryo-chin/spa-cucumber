@@ -17,7 +17,7 @@ abstract class BaseStep : En {
                 webDriverUtil.takeScreenShot(scenario.name)?.also { logger.info("Take screenShot: ${it.fileName}") }
             }
             webDriverUtil.quit()
-            println("@@@@@@@ Complete After")
+            logger.info("Complete CleanUp WebDriver")
         }
     }
 }
