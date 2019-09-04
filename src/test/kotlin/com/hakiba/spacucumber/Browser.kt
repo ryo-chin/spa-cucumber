@@ -15,24 +15,17 @@ import java.nio.file.Paths
 class Browser(
         private var driver: RemoteWebDriver
 ) {
-    companion object {
-        fun launch(): RemoteWebDriver {
-            return RemoteWebDriver(URL(seleniumServerUrl), ChromeOptions())
-        }
-    }
-
     fun isLaunched(): Boolean = driver.sessionId != null
 
-    fun relaunch(): RemoteWebDriver {
-        this.driver = launch()
-        return driver
+    fun relaunch() {
+        this.driver = RemoteWebDriver(URL(seleniumServerUrl), ChromeOptions())
     }
+
+    fun quit() = driver.quit()
 
     fun open(url: String) {
         driver.get(url)
     }
-
-    fun quit() = driver.quit()
 
     fun input(filedName: String, value: String) = driver.findElementByClassName(filedName).sendKeys(value)
     fun submit(name: String) = driver.findElementByClassName(name).submit()
