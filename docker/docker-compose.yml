@@ -1,12 +1,11 @@
 version: '3'
 services:
-  # TODO: 事前に ./gradlew build -x test が必要な状態を解決
   apiserver:
     build: apiserver
     container_name: apiserver
     volumes:
-      - ./../:/spa-cucumber
-    working_dir: /spa-cucumber
+      - ./../api-server:/spa-cucumber/api-server
+    working_dir: /spa-cucumber/api-server
     ports:
       - 8080:8080
   frontserver:
