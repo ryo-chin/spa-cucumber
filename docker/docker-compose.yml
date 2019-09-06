@@ -12,6 +12,17 @@ services:
     volumes:
       - ./../frontend-app:/spa-cucumber/frontend-app
     working_dir: /spa-cucumber/frontend-app
+  mysql:
+    build: mysql
+    container_name: mysql
+    ports:
+      - 3309:3306
+    volumes:
+      - ./mysql/init:/docker-entrypoint-initdb.d # For Database initialize
+    environment:
+      MYSQL_DATABASE: spa_cucumber_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD:
   chrome:
     image: selenium/standalone-chrome-debug:latest
     container_name: selenium_chrome
