@@ -21,19 +21,20 @@ dependencies {
     testImplementation("junit:junit")
 }
 
+val runScenarioTest = "runScenarioTest"
 tasks {
-    // TODO: ログ出力されない
-    // ref: https://github.com/junit-team/junit5-samples/blob/master/junit5-jupiter-starter-gradle-kotlin/build.gradle.kts#L16
-    test {
-        testLogging {
-            events("passed", "skipped", "failed")
-            info.events("passed", "skipped", "failed")
-        }
-    }
-    register<Test>("cucumberRun") {
+    register<Test>(runScenarioTest) {
         include("**/RunCucumber.class")
     }
     register<Exec>("cucumberRunWithBuild") {
         commandLine("sh", "../tools/cucumber_with_build.sh")
+    }
+}
+
+afterEvaluate {
+    tasks {
+        named<Test>(runScenarioTest) {
+            logging.level = LogLevel.INFO
+        }
     }
 }
