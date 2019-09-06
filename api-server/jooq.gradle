@@ -1,0 +1,47 @@
+// ref. https://github.com/etiennestuder/gradle-jooq-plugin/tree/master/example/use_kotlin_dsl_with_groovy
+buildscript {
+    repositories {
+        maven {
+            url = uri('https://plugins.gradle.org/m2/')
+        }
+    }
+    dependencies {
+        classpath('nu.studer:gradle-jooq-plugin:3.0.3')
+    }
+}
+
+apply plugin: nu.studer.gradle.jooq.JooqPlugin
+apply plugin: 'java'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.jooq:jooq'
+    jooqRuntime 'mysql:mysql-connector-java:5.1.45'
+}
+
+jooq {
+    version = '3.11.11'
+    spaCucumber(sourceSets.main) {
+        jdbc {
+            driver = 'com.mysql.jdbc.Driver'
+            url = 'jdbc:mysql://127.0.0.1:3309'
+            user = 'root'
+            password = ''
+        }
+        generator {
+            database {
+                name = 'org.jooq.meta.mysql.MySQLDatabase'
+                inputSchema = 'spa_cucumber_db'
+                // includes = 'db_a.*|db_b.*' // if multiple database exist
+                excludes = 'flyway_schema_history'
+            }
+            target {
+                packageName = 'com.hakiba.spacucumber.jooq'
+                directory = 'src/main/kotlin'
+            }
+        }
+    }
+}

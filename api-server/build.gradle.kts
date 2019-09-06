@@ -5,6 +5,9 @@ plugins {
     kotlin("plugin.spring")
 }
 
+// JOOQ
+apply(from = "jooq.gradle")
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
