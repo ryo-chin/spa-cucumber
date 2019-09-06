@@ -35,7 +35,7 @@ export class SignupComponent implements OnInit {
     };
     this.http.post<User>(environment.apiUrl + "/api/users", userInput, httpOptions)
       .subscribe(
-        user => this.router.navigateByUrl("/user/" + user.userId),
+        user => this.router.navigateByUrl("/user/" + user.id),
         error => {
           console.log(error);
           alert("fail")

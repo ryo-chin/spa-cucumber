@@ -1,4 +1,4 @@
 export class User {
-  userId: bigint;
+  id: bigint;
   mailAddress: String;
 }
