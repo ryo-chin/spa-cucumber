@@ -24,6 +24,7 @@ dependencies {
     testImplementation("io.cucumber:cucumber-junit:4.7.1")
     testImplementation("org.seleniumhq.selenium:selenium-java:3.14.0")
     testImplementation("junit:junit")
+    testImplementation("com.ninja-squad:DbSetup-kotlin:2.1.0")
 }
 
 val runScenarioTest = "runScenarioTest"
