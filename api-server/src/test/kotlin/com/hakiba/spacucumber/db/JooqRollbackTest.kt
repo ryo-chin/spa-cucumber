@@ -62,5 +62,7 @@ class JooqRollbackTest {
     @After
     fun cleanup() {
         con.rollback()
+        println("After Clean up: ${count()}")
+        con.close()
     }
 }
