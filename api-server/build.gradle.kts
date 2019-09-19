@@ -11,6 +11,8 @@ apply(from = "jooq.gradle")
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework:spring-tx")
+    implementation("org.springframework:spring-jdbc:3.1.0.RELEASE")
     implementation("com.graphql-java:graphql-spring-boot-starter:5.0.2")
     implementation("com.graphql-java:graphiql-spring-boot-starter:5.0.2")
     implementation("com.graphql-java:graphql-java-tools:5.2.4")
