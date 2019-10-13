@@ -1,0 +1,9 @@
+spring:
+  security:
+    allowedOriginUrl: <your-allowedOriginUrl>
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: <your-issuer-uri>issuer-uri
+auth0:
+  audience: <your-client-id>

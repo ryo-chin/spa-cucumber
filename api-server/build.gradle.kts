@@ -16,6 +16,11 @@ dependencies {
     implementation("com.graphql-java:graphql-spring-boot-starter:5.0.2")
     implementation("com.graphql-java:graphiql-spring-boot-starter:5.0.2")
     implementation("com.graphql-java:graphql-java-tools:5.2.4")
+
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.security:spring-security-oauth2-resource-server")
+    implementation("org.springframework.security:spring-security-oauth2-jose")
+    
     implementation("org.jooq:jooq")
     implementation("mysql:mysql-connector-java:5.1.45")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

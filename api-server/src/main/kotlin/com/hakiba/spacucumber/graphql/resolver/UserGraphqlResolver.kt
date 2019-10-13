@@ -4,14 +4,31 @@ import com.coxautodev.graphql.tools.GraphQLMutationResolver
 import com.coxautodev.graphql.tools.GraphQLQueryResolver
 import com.hakiba.spacucumber.controller.UserController.Companion.userStore
 import com.hakiba.spacucumber.controller.UserDto
+import com.hakiba.spacucumber.prepareLogger
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.oauth2.jwt.JwtDecoders
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoderJwkSupport
 import org.springframework.stereotype.Component
+import javax.servlet.http.HttpServletRequest
 
 /**
  * @author hakiba
  */
 @Component
-class UserQueryResolver : GraphQLQueryResolver {
-    fun user(id: String): UserDto? {
+class UserQueryResolver(
+        private val httpRequest: HttpServletRequest,
+        @Value("\${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
+        private val issuer: String? = null
+) : GraphQLQueryResolver {
+
+    val logger = prepareLogger()
+
+    fun user(id: String?): UserDto? {
+        val jwtDecoder = JwtDecoders.fromOidcIssuerLocation(issuer) as NimbusJwtDecoderJwkSupport
+        val token = httpRequest.getHeader("authorization").replace("Bearer ", "")
+        val jwt = jwtDecoder.decode(token)
+        logger.info("token: $token")
+        logger.info("jwt: $jwt")
         return userStore
     }
 }

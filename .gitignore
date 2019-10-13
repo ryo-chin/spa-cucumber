@@ -34,3 +34,6 @@ out/
 
 ### JOOQ ###
 **/jooq/
+
+### properties ###
+**/application.yml
