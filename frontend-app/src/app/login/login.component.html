@@ -1,0 +1,12 @@
+<section>
+  <dl>
+    <dt><label for="mailAddress">Email</label></dt>
+    <dd><input type="email" name="mailAddress" id="mailAddress" [(ngModel)]="mail"></dd>
+    <dt><label for="password">Password</label></dt>
+    <dd><input type="password" name="password" id="password" [(ngModel)]="password" placeholder="8 to 20 characters"></dd>
+  </dl>
+  <div class="button-area">
+    <button id="login-button" label="ログイン" (click)="login()">Login</button>
+  </div>
+  <div class="error-message" *ngIf="errorMessage">{{errorMessage}}</div>
+</section>

@@ -5,6 +5,13 @@ query users($id: String!) {
   }
 }
 
+query mypage {
+  user {
+    id
+    mailAddress
+  }
+}
+
 mutation signup($mail: String!, $password: String!) {
   signup(mailAddress: $mail, password: $password) {
     id
