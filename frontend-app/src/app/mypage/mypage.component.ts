@@ -12,7 +12,7 @@ import { map, take } from "rxjs/operators";
   styleUrls: ['./mypage.component.scss']
 })
 export class MypageComponent implements OnInit {
-  user: User;
+  user: User = new User("", ""); // TODO: lazy loading
 
   constructor(
     private route: ActivatedRoute,
@@ -25,7 +25,7 @@ export class MypageComponent implements OnInit {
   ngOnInit() {
     this.getProfileByGraphql()
       .subscribe(
-        (r: MypageQuery) => this.user = new User(r.user.id, r.user.mailAddress),
+        (r: MypageQuery) => this.user = new User(r.me.id, r.me.mailAddress),
         error => console.log(error)
       );
   }

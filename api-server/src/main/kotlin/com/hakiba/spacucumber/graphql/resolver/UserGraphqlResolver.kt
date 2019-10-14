@@ -23,20 +23,27 @@ class UserQueryResolver(
 
     val logger = prepareLogger()
 
-    fun user(id: String?): UserDto? {
+    fun user(id: String): UserDto? {
+        return userStore
+    }
+
+    fun me(): UserDto? {
         val jwtDecoder = JwtDecoders.fromOidcIssuerLocation(issuer) as NimbusJwtDecoderJwkSupport
         val token = httpRequest.getHeader("authorization").replace("Bearer ", "")
         val jwt = jwtDecoder.decode(token)
         logger.info("token: $token")
         logger.info("jwt: $jwt")
-        return userStore
+        logger.info("claims: ${jwt.claims}")
+        val userId = jwt.claims["sub"] as String
+        val email = jwt.claims["email"] as String
+        return UserDto(userId, email)
     }
 }
 
 @Component
 class UserMutationResolver: GraphQLMutationResolver {
     fun signup(mailAddress: String,  password: String) : UserDto {
-        val user = UserDto(id = 1, mailAddress = mailAddress)
+        val user = UserDto(id = "1", mailAddress = mailAddress)
         userStore = user
         return user
     }

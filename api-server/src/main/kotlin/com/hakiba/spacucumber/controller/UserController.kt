@@ -17,13 +17,13 @@ class UserController {
     @PostMapping
     fun signUp(@RequestBody body: UserRegisterBody): ResponseEntity<UserDto> {
         println("$body.mailAddress $body.password")
-        val userDto = UserDto(id = 1, mailAddress = body.mailAddress)
+        val userDto = UserDto(id = "1", mailAddress = body.mailAddress)
         userStore = userDto
         return ResponseEntity.ok(userDto)
     }
 
     @GetMapping("{id}")
-    fun users(@PathVariable(value = "id") id: Long): ResponseEntity<UserDto> {
+    fun users(@PathVariable(value = "id") id: String): ResponseEntity<UserDto> {
         return ResponseEntity.ok(UserDto(id = id, mailAddress = userStore?.mailAddress ?: ""))
     }
 }
@@ -34,6 +34,6 @@ data class UserRegisterBody(
 )
 
 data class UserDto(
-        val id: Long,
+        val id: String,
         val mailAddress: String
 )
