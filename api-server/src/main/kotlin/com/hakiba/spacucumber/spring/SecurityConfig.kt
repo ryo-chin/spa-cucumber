@@ -1,5 +1,7 @@
 package com.hakiba.spacucumber.spring
 
+import com.hakiba.spacucumber.spring.filter.NonAuthFilter
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -11,6 +13,7 @@ import org.springframework.security.oauth2.core.OAuth2Error
 import org.springframework.security.oauth2.core.OAuth2TokenValidator
 import org.springframework.security.oauth2.core.OAuth2TokenValidatorResult
 import org.springframework.security.oauth2.jwt.*
+import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
@@ -41,9 +44,13 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
         return jwtDecoder
     }
 
+    @Autowired
+    lateinit var nonAuthFilter: NonAuthFilter
+
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         // Auth0 + SpringSecurity5 ref: https://auth0.com/docs/quickstart/backend/java-spring-security5/01-authorization
+        http.addFilterBefore(nonAuthFilter, BearerTokenAuthenticationFilter::class.java)
         http.oauth2ResourceServer().jwt()
         http.authorizeRequests()
                 .antMatchers("/graphql").authenticated()

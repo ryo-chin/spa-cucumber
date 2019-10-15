@@ -1,0 +1,4 @@
+type HakibaAppInfo {
+  createCompanyName: String!
+  phoneNumber: String!
+}

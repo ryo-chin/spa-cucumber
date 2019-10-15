@@ -1,0 +1,6 @@
+query appInfo {
+  appInfo {
+    createCompanyName
+    phoneNumber
+  }
+}

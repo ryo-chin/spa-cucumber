@@ -1,6 +1,7 @@
 type Query {
     user(id: String!): User
     me: User
+    appInfo: HakibaAppInfo!
 }
 
 type User {
