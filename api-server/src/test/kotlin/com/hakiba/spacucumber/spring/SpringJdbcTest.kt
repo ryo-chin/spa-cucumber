@@ -1,6 +1,7 @@
 package com.hakiba.spacucumber.spring
 
 import com.hakiba.spacucumber.jooq.Tables.USERS
+import com.hakiba.spacucumber.spring.config.TestConfig
 import org.assertj.core.api.Assertions.assertThat
 import org.jooq.DSLContext
 import org.jooq.impl.DSL
@@ -9,8 +10,6 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.transaction.annotation.Transactional
@@ -41,12 +40,6 @@ class JooqSpringTest : SpringJdbcTest() {
         testComponent.insert()
         assertThat((dsl.selectCount().from(USERS).fetchOne(DSL.count()))).isEqualTo(before)
     }
-}
-
-@Configuration
-class TestConfig {
-    @Bean
-    fun testComponent(dsl: DSLContext) : TestComponent = TestComponent(dsl)
 }
 
 // For Enhance

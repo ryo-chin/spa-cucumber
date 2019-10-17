@@ -1,6 +1,6 @@
 package com.hakiba.spacucumber.spring
 
-import com.hakiba.spacucumber.spring.filter.NonAuthFilter
+import com.hakiba.spacucumber.spring.filter.AuthCheckFilter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -33,6 +33,9 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     @Value("\${spring.security.allowedOriginUrl}")
     private val allowedOriginUrl: String? = null
 
+    @Autowired
+    lateinit var authCheckFilter: AuthCheckFilter
+
     // Auth0 + SpringSecurity5 ref: https://auth0.com/docs/quickstart/backend/java-spring-security5/01-authorization
     @Bean
     fun jwtDecoder(): JwtDecoder {
@@ -44,19 +47,15 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
         return jwtDecoder
     }
 
-    @Autowired
-    lateinit var nonAuthFilter: NonAuthFilter
-
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         // Auth0 + SpringSecurity5 ref: https://auth0.com/docs/quickstart/backend/java-spring-security5/01-authorization
-        http.addFilterBefore(nonAuthFilter, BearerTokenAuthenticationFilter::class.java)
         http.oauth2ResourceServer().jwt()
-        http.authorizeRequests()
-                .antMatchers("/graphql").authenticated()
+        http.authorizeRequests().antMatchers("/graphql").authenticated()
         // no needs session since use token auth
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         http.cors().configurationSource(corsConfigurationSource())
+        http.addFilterBefore(authCheckFilter, BearerTokenAuthenticationFilter::class.java)
     }
 
     private fun corsConfigurationSource(): CorsConfigurationSource {
