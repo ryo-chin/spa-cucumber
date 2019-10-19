@@ -1,12 +1,12 @@
 <section>
   <dl>
     <dt><label for="mailAddress">Email</label></dt>
-    <dd><input type="email" name="mailAddress" id="mailAddress" [(ngModel)]="mail"></dd>
+    <dd><input type="email" class="e2e-mailAddress" name="mailAddress" id="mailAddress" [(ngModel)]="mail"></dd>
     <dt><label for="password">Password</label></dt>
-    <dd><input type="password" name="password" id="password" [(ngModel)]="password" placeholder="8 to 20 characters"></dd>
+    <dd><input type="password" class="e2e-password" name="password" id="password" [(ngModel)]="password" placeholder="8 to 20 characters"></dd>
   </dl>
   <div class="button-area">
-    <button id="login-button" label="ログイン" (click)="login()">Login</button>
+    <button id="login-button" class="e2e-login-button" label="ログイン" (click)="login()">Login</button>
   </div>
   <div class="error-message" *ngIf="errorMessage">{{errorMessage}}</div>
 </section>

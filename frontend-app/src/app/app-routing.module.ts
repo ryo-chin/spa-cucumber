@@ -8,6 +8,7 @@ import { LoginCompleteComponent } from "./login/complete/login-complete.componen
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
+  {path: 'login', component: LoginComponent},
   {path: 'login/complete', component: LoginCompleteComponent},
   {path: 'signup', component: SignupComponent},
   {path: 'user/:id', component: UserProfileComponent},

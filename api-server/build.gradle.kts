@@ -35,9 +35,13 @@ dependencies {
 }
 
 val runScenarioTest = "runScenarioTest"
+val runScenarioTestOnlyNow = "runScenarioTestOnlyNow"
 tasks {
     register<Test>(runScenarioTest) {
         include("**/RunCucumber.class")
+    }
+    register<Test>(runScenarioTestOnlyNow) {
+        include("**/RunCucumberNow.class")
     }
     register<Exec>("cucumberRunWithBuild") {
         commandLine("sh", "../tools/cucumber_with_build.sh")

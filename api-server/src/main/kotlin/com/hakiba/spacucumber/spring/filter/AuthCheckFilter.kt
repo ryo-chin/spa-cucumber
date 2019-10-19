@@ -41,6 +41,10 @@ class AuthCheckFilter(
                 .map { it.name }
     }
 
+    override fun shouldNotFilter(request: HttpServletRequest): Boolean {
+        return "/graphql" != request.requestURI
+    }
+
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         val requestWrapper = BufferedServletRequestWrapper(request)
         if (needsAuthorize(requestWrapper)) {

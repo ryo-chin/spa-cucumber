@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -51,10 +52,13 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         // Auth0 + SpringSecurity5 ref: https://auth0.com/docs/quickstart/backend/java-spring-security5/01-authorization
         http.oauth2ResourceServer().jwt()
-        http.authorizeRequests().antMatchers("/graphql").authenticated()
+        http.authorizeRequests()
+                .antMatchers("/graphql").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/users").permitAll()
         // no needs session since use token auth
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         http.cors().configurationSource(corsConfigurationSource())
+        http.csrf().disable() // TODO add custome header
         http.addFilterBefore(authCheckFilter, BearerTokenAuthenticationFilter::class.java)
     }
 

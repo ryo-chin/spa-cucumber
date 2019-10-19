@@ -1,18 +1,20 @@
 package com.hakiba.spacucumber.steps
 
 import com.hakiba.spacucumber.base.BaseStep
-import com.hakiba.spacucumber.signUpPage
-import com.hakiba.spacucumber.userProfilePage
+import com.hakiba.spacucumber.base.WebPageHolder
+import com.hakiba.spacucumber.page.SignUpPage
+import com.hakiba.spacucumber.page.UserProfilePage
 import org.assertj.core.api.Assertions.assertThat
 
 
 /**
  * @author hakiba
  */
-class SignupSteps : BaseStep() {
+class SignUpSteps : BaseStep() {
+    private val signUpPage = WebPageHolder.retrieve(SignUpPage::class)
     init {
         Given("メールアドレス{string}、パスワード{string}を入力する") { mailAddress: String, password: String ->
-            signUpPage.visit()
+            signUpPage.visit() // TODO: separate another step
             signUpPage.input(mailAddress = mailAddress, password = password)
         }
 
@@ -21,7 +23,7 @@ class SignupSteps : BaseStep() {
         }
 
         Then("自分のユーザープロフィール画面に遷移する") {
-            assertThat(userProfilePage.isOpened()).isTrue()
+            assertThat(WebPageHolder.retrieve(UserProfilePage::class).isOpened()).isTrue()
         }
     }
 }
