@@ -62,7 +62,4 @@ workflows:
   version: 2.1
   workflow:
     jobs:
-      - testing_and_build_front
       - setup_and_test:
-          requires:
-            - testing_and_build_front
