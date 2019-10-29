@@ -1,12 +1,24 @@
 version: 2.1
-orbs:
-  aws-cli: circleci/aws-cli@0.1.16
-  aws-ecr: circleci/aws-ecr@4.0.1
-executors:
-  build_container:
+commands:
+  restore_npm:
+    steps:
+      - restore_cache:
+          name: Restore npm dependencies
+          key: npm-{{ checksum "package.json" }}
+  save_npm:
+    steps:
+      - save_cache:
+          name: Cache npm dependencies
+          key: npm-{{ checksum "package.json" }}
+          paths:
+            - ~/workspace/node_modules
+jobs:
+  setup_and_test:
     docker:
-      - image: circleci/openjdk:11.0.3-jdk-stretch
+      - image: circleci/openjdk:11.0.3-jdk-stretch-browsers
       - image: circleci/mysql:5.7
+        environment:
+          - MYSQL_ALLOW_EMPTY_PASSWORD: 1
         command: mysqld --lower_case_table_names=1
       - image: docker.elastic.co/elasticsearch/elasticsearch:6.8.2
         environment:
@@ -15,39 +27,42 @@ executors:
           - ES_JAVA_OPTS=-Xms750m -Xmx750m
         entrypoint: >
           bash -c "elasticsearch-plugin install analysis-kuromoji && docker-entrypoint.sh"
-      - image: localstack/localstack
-        environment:
-          - SERVICES=sqs:9324
     environment:
-      - CGO_ENABLED: 0
-      - GOOS: "linux"
-      - GOARCH: "amd64"
-      - MYSQL_USER: "root"
-      - MYSQL_PASSWORD: ""
-      - MYSQL_ENDPOINT: "127.0.0.1:3306"
-      - MYSQL_DB_NAME: "bizv4"
-      - MYSQL_MESSAGE_USER: "root"
-      - MYSQL_MESSAGE_PASSWORD: ""
-      - MYSQL_MESSAGE_ENDPOINT: "127.0.0.1:3306"
-      - MYSQL_MESSAGE_DB_NAME: "bizmg"
-commands:
-  build:
-    parameters:
-      file_path:
-        type: string
+      - JVM_OPTS: -Xmx3200m
+      - GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
     steps:
+      - checkout
       - attach_workspace:
           at: .
       - restore_cache:
-          keys:
-            - v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-            - v1-gradle-cache-{{ checksum "build.gradle" }}
-      - run:
-          name: Execute kotlin build
-          command: |
-            cd << parameters.file_path >>
-            # TODO
-      - persist_to_workspace:
-          root: .
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - restore_cache:
+          key: v1-gradle-cache-{{ checksum "build.gradle" }}
+      - save_cache:
           paths:
-            - << parameters.file_path >>/main // TODO
+            - ~/.gradle/wrapper
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+          key: v1-gradle-cache-{{ checksum "build.gradle" }}
+      - run:
+          name: setup db and elasticsearch schema
+          command: |
+            sudo apt update
+            sudo apt install -y mysql-client
+            sh ./tools/setup_v4db.sh
+            sh ./docker/elasticsearch/init/create_schema.sh "${ENV_SERVER_LOCAL_IP:-127.0.0.1}"
+            ./gradlew generateTablesJooqSchemaSource -Pjdbc.url=jdbc:mysql://localhost:3306
+      - run:
+          name: test_and_run_backend
+          command: |
+            ./gradlew test -Pspring.profiles.active=test --info
+workflows:
+  version: 2.1
+  workflow:
+    jobs:
+      - testing_and_build_front
+      - setup_and_test:
+          requires:
+            - testing_and_build_front
